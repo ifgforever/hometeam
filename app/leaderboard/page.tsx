@@ -120,7 +120,7 @@ export default function LeaderboardPage() {
 
       <nav className="fixed bottom-0 left-0 right-0 bg-slate-900/90 backdrop-blur border-t border-white/10 px-4 py-3">
         <div className="flex justify-around max-w-lg mx-auto">
-          {[{ href: '/dashboard', icon: '🏠', label: 'Home' }, { href: '/tasks', icon: '📋', label: 'Tasks' }, { href: '/leaderboard', icon: '🏆', label: 'Rankings' }].map(item => (
+          {[{ href: '/dashboard', icon: '🏠', label: 'Home' }, { href: '/tasks', icon: '📋', label: 'Tasks' }, { href: '/assign', icon: '🎲', label: 'Assign' }, { href: '/leaderboard', icon: '🏆', label: 'Rankings' }].map(item => (
             <Link key={item.href} href={item.href} className="flex flex-col items-center gap-1 text-indigo-300 hover:text-amber-400 transition">
               <span className="text-xl">{item.icon}</span>
               <span className="text-xs font-medium">{item.label}</span>

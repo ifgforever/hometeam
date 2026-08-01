@@ -204,12 +204,18 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {session?.role === 'parent' && (
-          <Link href="/tasks/new"
-            className="flex items-center justify-center gap-2 w-full py-3 bg-white/10 border border-dashed border-white/20 rounded-2xl text-indigo-300 font-semibold mb-4 hover:bg-white/20 transition">
-            + Add Task
+        <div className="flex gap-2 mb-4">
+          {session?.role === 'parent' && (
+            <Link href="/tasks/new"
+              className="flex-1 flex items-center justify-center gap-2 py-3 bg-white/10 border border-dashed border-white/20 rounded-2xl text-indigo-300 font-semibold hover:bg-white/20 transition text-sm">
+              + Add Task
+            </Link>
+          )}
+          <Link href="/assign"
+            className="flex-1 flex items-center justify-center gap-2 py-3 bg-amber-400/20 border border-amber-400/40 rounded-2xl text-amber-300 font-bold hover:bg-amber-400/30 transition text-sm">
+            🎲 Quick Assign
           </Link>
-        )}
+        </div>
 
         <div className="space-y-3">
           {pendingTasks.length === 0 && (
@@ -255,6 +261,7 @@ export default function DashboardPage() {
           {[
             { href: '/dashboard', icon: '🏠', label: 'Home' },
             { href: '/tasks', icon: '📋', label: 'Tasks' },
+            { href: '/assign', icon: '🎲', label: 'Assign' },
             { href: '/leaderboard', icon: '🏆', label: 'Rankings' },
           ].map(item => (
             <Link key={item.href} href={item.href} className="flex flex-col items-center gap-1 text-indigo-300 hover:text-amber-400 transition">

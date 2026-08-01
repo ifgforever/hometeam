@@ -29,6 +29,7 @@ model Member {
   weekPoints   Int       @default(0)
   streak       Int       @default(0)
   lastActive   DateTime?
+  isHome       Boolean   @default(true)
   createdAt    DateTime  @default(now())
 
   assignedTasks  Task[]        @relation("AssignedTo")
