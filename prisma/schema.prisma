@@ -1,0 +1,101 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Family {
+  id          String   @id @default(cuid())
+  name        String
+  inviteCode  String   @unique
+  createdAt   DateTime @default(now())
+  members     Member[]
+  tasks       Task[]
+}
+
+model Member {
+  id           String    @id @default(cuid())
+  familyId     String
+  family       Family    @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  name         String
+  email        String    @unique
+  password     String
+  role         String    @default("member")
+  avatar       String    @default("🙂")
+  totalPoints  Int       @default(0)
+  weekPoints   Int       @default(0)
+  streak       Int       @default(0)
+  lastActive   DateTime?
+  createdAt    DateTime  @default(now())
+
+  assignedTasks  Task[]        @relation("AssignedTo")
+  completions    Completion[]
+  badges         MemberBadge[]
+
+  @@index([familyId])
+  @@index([email])
+}
+
+model Task {
+  id          String   @id @default(cuid())
+  familyId    String
+  family      Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  assignedToId String?
+  assignedTo  Member?  @relation("AssignedTo", fields: [assignedToId], references: [id])
+
+  title       String
+  description String?
+  category    String   @default("General")
+  room        String?
+  difficulty  String   @default("Medium")
+  points      Int      @default(10)
+  recurring   String   @default("once")
+  dueDate     DateTime?
+  status      String   @default("pending")
+  priority    String   @default("normal")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  completions Completion[]
+
+  @@index([familyId])
+  @@index([status])
+}
+
+model Completion {
+  id        String   @id @default(cuid())
+  taskId    String
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  memberId  String
+  member    Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  points    Int
+  note      String?
+  createdAt DateTime @default(now())
+
+  @@index([memberId])
+  @@index([taskId])
+}
+
+model Badge {
+  id          String        @id @default(cuid())
+  name        String        @unique
+  description String
+  icon        String
+  condition   String
+  members     MemberBadge[]
+}
+
+model MemberBadge {
+  id        String   @id @default(cuid())
+  memberId  String
+  member    Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  badgeId   String
+  badge     Badge    @relation(fields: [badgeId], references: [id])
+  earnedAt  DateTime @default(now())
+
+  @@unique([memberId, badgeId])
+  @@index([memberId])
+}
