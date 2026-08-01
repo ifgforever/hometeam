@@ -6,7 +6,7 @@ export async function POST(request: NextRequest) {
   const session = await getSession();
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const { isHome, memberId } = await request.json();
+  const { isHome, memberId } = await request.json() as { isHome?: boolean; memberId?: string };
 
   const targetId = memberId || session.id;
 

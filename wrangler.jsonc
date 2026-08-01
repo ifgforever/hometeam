@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "hometeam",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-08-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "hometeam-db",
+      "database_id": "a43b1973-7cc6-4d68-8763-aa58343378f4",
+      "migrations_dir": "prisma/migrations"
+    }
+  ],
+  "observability": { "enabled": true }
+}

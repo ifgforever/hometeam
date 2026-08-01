@@ -4,7 +4,9 @@ import { hashPassword, generateToken } from '@/lib/auth';
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, password, inviteCode, avatar } = await request.json();
+    const { name, email, password, inviteCode, avatar } = await request.json() as {
+      name?: string; email?: string; password?: string; inviteCode?: string; avatar?: string;
+    };
 
     if (!name || !email || !password || !inviteCode) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });

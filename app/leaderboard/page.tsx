@@ -19,7 +19,7 @@ export default function LeaderboardPage() {
   useEffect(() => {
     fetch('/api/leaderboard').then(r => {
       if (!r.ok) { router.push('/login'); return null; }
-      return r.json();
+      return r.json() as Promise<Member[]>;
     }).then(data => { if (data) setMembers(data); setLoading(false); });
   }, []);
 

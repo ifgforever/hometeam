@@ -43,15 +43,19 @@ export async function POST(request: NextRequest) {
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   if (session.role !== 'parent') return NextResponse.json({ error: 'Parents only' }, { status: 403 });
 
-  const body = await request.json();
+  const body = await request.json() as {
+    title?: string; description?: string; category?: string; room?: string;
+    difficulty?: string; recurring?: string; assignedToId?: string;
+    dueDate?: string; priority?: string;
+  };
   const { title, description, category, room, difficulty, recurring, assignedToId, dueDate, priority } = body;
 
-  const points = POINTS_MAP[difficulty] || 10;
+  const points = POINTS_MAP[difficulty || 'Medium'] || 10;
 
   const task = await prisma.task.create({
     data: {
       familyId: session.familyId,
-      title,
+      title: title || '',
       description,
       category: category || 'General',
       room,

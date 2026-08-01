@@ -21,8 +21,8 @@ export default function RegisterPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...form, avatar }),
       });
-      if (!res.ok) throw new Error((await res.json()).error);
-      const data = await res.json();
+      if (!res.ok) throw new Error(((await res.json()) as { error?: string }).error || 'Registration failed');
+      const data = await res.json() as { family: { inviteCode: string } };
       sessionStorage.setItem('inviteCode', data.family.inviteCode);
       router.push('/dashboard');
     } catch (err: any) {

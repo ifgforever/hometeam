@@ -7,7 +7,10 @@ export async function POST(request: NextRequest) {
   const session = await getSession();
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const body = await request.json();
+  const body = await request.json() as {
+    taskId?: string; excludeSelf?: boolean; title?: string; description?: string;
+    category?: string; room?: string; difficulty?: string;
+  };
   const { taskId, excludeSelf } = body;
 
   // get all members currently home in this family
@@ -52,7 +55,7 @@ export async function POST(request: NextRequest) {
     if (!title) return NextResponse.json({ error: 'title required when no taskId provided' }, { status: 400 });
 
     const pointsMap: Record<string, number> = { Easy: 5, Medium: 10, Hard: 20 };
-    const points = pointsMap[difficulty] || 10;
+    const points = pointsMap[difficulty || 'Medium'] || 10;
 
     task = await prisma.task.create({
       data: {

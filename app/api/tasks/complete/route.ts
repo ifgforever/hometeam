@@ -7,7 +7,11 @@ export async function POST(request: NextRequest) {
   const session = await getSession();
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const { taskId, note } = await request.json();
+  const { taskId, note } = await request.json() as { taskId?: string; note?: string };
+
+  if (!taskId) {
+    return NextResponse.json({ error: 'Task ID is required' }, { status: 400 });
+  }
 
   const task = await prisma.task.findFirst({
     where: { id: taskId, familyId: session.familyId },

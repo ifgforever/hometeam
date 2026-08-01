@@ -1,0 +1,6 @@
+JWT_SECRET=replace-with-a-long-random-value
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=you@example.com
+SMTP_PASS=replace-with-an-app-password
+NEXT_PUBLIC_APP_URL=http://localhost:3000

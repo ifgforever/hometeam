@@ -18,7 +18,7 @@ export default function LoginPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       });
-      if (!res.ok) throw new Error((await res.json()).error);
+      if (!res.ok) throw new Error(((await res.json()) as { error?: string }).error || 'Login failed');
       router.push('/dashboard');
     } catch (err: any) {
       setError(err.message);

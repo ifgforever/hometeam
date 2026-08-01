@@ -25,9 +25,9 @@ export default function TasksPage() {
   const [celebration, setCelebration] = useState<number | null>(null);
 
   useEffect(() => {
-    fetch('/api/auth/me').then(r => { if (!r.ok) router.push('/login'); return r.json(); })
+    fetch('/api/auth/me').then(r => { if (!r.ok) router.push('/login'); return r.json() as Promise<{ role: string }>; })
       .then(d => setRole(d.role));
-    fetch('/api/tasks?filter=all').then(r => r.json()).then(setTasks);
+    fetch('/api/tasks?filter=all').then(r => r.json() as Promise<Task[]>).then(setTasks);
   }, []);
 
   async function completeTask(taskId: string, points: number) {
@@ -39,7 +39,7 @@ export default function TasksPage() {
     if (res.ok) {
       setCelebration(points);
       setTimeout(() => setCelebration(null), 2500);
-      const updated = await fetch('/api/tasks?filter=all').then(r => r.json());
+      const updated = await fetch('/api/tasks?filter=all').then(r => r.json() as Promise<Task[]>);
       setTasks(updated);
     }
     setCompleting(null);

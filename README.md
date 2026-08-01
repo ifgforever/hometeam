@@ -29,8 +29,16 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Deploy on Cloudflare Workers
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This app is configured for Cloudflare Workers through OpenNext and uses the
+`hometeam-db` D1 database.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Copy `.dev.vars.example` to `.dev.vars` and supply local values.
+2. Run `npm run db:migrate:local` and `npm run preview` for a Workers-runtime preview.
+3. Add `JWT_SECRET`, `SMTP_USER`, and `SMTP_PASS` as Worker secrets. Set
+   `SMTP_HOST`, `SMTP_PORT`, and `NEXT_PUBLIC_APP_URL` as Worker variables.
+4. Run `npm run db:migrate:remote`, then `npm run deploy`.
+
+Quick Assign email notifications require the SMTP settings above. Gmail users
+should use an app password rather than an account password.

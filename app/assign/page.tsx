@@ -35,7 +35,7 @@ export default function AssignPage() {
 
   async function fetchPresence() {
     const res = await fetch('/api/members/presence');
-    if (res.ok) setMembers(await res.json());
+    if (res.ok) setMembers(await res.json() as Member[]);
   }
 
   async function togglePresence(memberId: string, current: boolean) {
@@ -60,8 +60,8 @@ export default function AssignPage() {
       body: JSON.stringify({ ...form }),
     });
 
-    const data = await res.json();
-    if (!res.ok) { setError(data.error); setLoading(false); return; }
+    const data = await res.json() as AssignResult & { error?: string };
+    if (!res.ok) { setError(data.error || 'Assignment failed'); setLoading(false); return; }
     setResult(data);
     setForm({ title: '', description: '', category: 'General', difficulty: 'Medium', room: '' });
     setLoading(false);

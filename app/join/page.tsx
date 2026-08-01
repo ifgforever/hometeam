@@ -21,7 +21,7 @@ export default function JoinPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...form, avatar }),
       });
-      if (!res.ok) throw new Error((await res.json()).error);
+      if (!res.ok) throw new Error(((await res.json()) as { error?: string }).error || 'Unable to join family');
       router.push('/dashboard');
     } catch (err: any) {
       setError(err.message);

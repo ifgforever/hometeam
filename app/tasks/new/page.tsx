@@ -19,9 +19,9 @@ export default function NewTaskPage() {
   });
 
   useEffect(() => {
-    fetch('/api/auth/me').then(r => { if (!r.ok) router.push('/login'); return r.json(); })
+    fetch('/api/auth/me').then(r => { if (!r.ok) router.push('/login'); return r.json() as Promise<{ role: string }>; })
       .then(d => { if (d.role !== 'parent') router.push('/dashboard'); });
-    fetch('/api/members').then(r => r.json()).then(setMembers);
+    fetch('/api/members').then(r => r.json() as Promise<Member[]>).then(setMembers);
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {

@@ -72,7 +72,10 @@ export default function DashboardPage() {
         fetch('/api/members'),
       ]);
       if (!sessionRes.ok) { router.push('/login'); return; }
-      const [sessionData, membersData] = await Promise.all([sessionRes.json(), membersRes.json()]);
+      const [sessionData, membersData] = await Promise.all([
+        sessionRes.json() as Promise<Session>,
+        membersRes.json() as Promise<Member[]>,
+      ]);
       setSession(sessionData);
       setMembers(membersData);
       await fetchTasks();
@@ -83,7 +86,7 @@ export default function DashboardPage() {
 
   async function fetchTasks() {
     const res = await fetch(`/api/tasks?filter=${tab}`);
-    if (res.ok) setTasks(await res.json());
+    if (res.ok) setTasks(await res.json() as Task[]);
   }
 
   async function completeTask(taskId: string) {
@@ -95,7 +98,7 @@ export default function DashboardPage() {
         body: JSON.stringify({ taskId }),
       });
       if (!res.ok) return;
-      const data = await res.json();
+      const data = await res.json() as { pointsEarned: number; newBadges: number };
       setCelebration({ points: data.pointsEarned, badge: data.newBadges > 0 });
       setTimeout(() => setCelebration(null), 3000);
       await fetchAll();

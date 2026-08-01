@@ -5,7 +5,9 @@ import { seedBadges } from '@/lib/badges';
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, password, familyName, avatar } = await request.json();
+    const { name, email, password, familyName, avatar } = await request.json() as {
+      name?: string; email?: string; password?: string; familyName?: string; avatar?: string;
+    };
 
     if (!name || !email || !password || !familyName) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
